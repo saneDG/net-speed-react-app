@@ -29,12 +29,12 @@ class Input extends React.Component {
         let fastest = {x: 0, y: 0, speed: 0};
 
         this.state.stations.forEach((station) => {
-            let distance = Math.hypot(station.x - this.props.device.x, station.y - this.props.device.x);
-            let speed = (station.reach - distance)^2
+            let distance = Math.hypot(station.x - this.props.device.x, station.y - this.props.device.y);
+            let speed = Math.pow(station.reach - distance, 2)
 
-            if (fastest.speed < speed && distance < station.reach) {
-                station.speed = speed;
+            if (fastest.speed <= speed && distance <= station.reach) {
                 fastest = station;
+                fastest.speed = speed;
             }
         })
 
@@ -45,7 +45,12 @@ class Input extends React.Component {
 
     render () {
         return (
-            this.state.speed > 0 ?
+            this.state.speed === 0 ?
+            <div>No network station within reach for point
+                <b> {this.props.device.x},</b>
+                <b>{this.props.device.y} </b>
+            </div>
+            :
             <p>
                 Best network station for point
                 <b> {this.props.device.x},</b>
@@ -56,11 +61,6 @@ class Input extends React.Component {
                 with speed
                 <b> {this.state.speed} </b>
             </p>
-            :
-            <div>No network station within reach for point
-                <b> {this.props.device.x},</b>
-                <b>{this.props.device.y} </b>
-            </div>
         );
     }
 }
