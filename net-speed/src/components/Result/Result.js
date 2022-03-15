@@ -35,8 +35,6 @@ class Input extends React.Component {
             if (fastest.speed < speed && distance < station.reach) {
                 station.speed = speed;
                 fastest = station;
-            } else {
-
             }
         })
 
